@@ -269,9 +269,11 @@ onnxruntime_fetchcontent_makeavailable(Protobuf nlohmann_json mp11 re2 safeint G
 if(NOT flatbuffers_FOUND)
   if(NOT TARGET flatbuffers::flatbuffers)
     add_library(flatbuffers::flatbuffers ALIAS flatbuffers)
+    target_compile_options(flatbuffers PRIVATE "-w")
   endif()
   if(TARGET flatc AND NOT TARGET flatbuffers::flatc)
     add_executable(flatbuffers::flatc ALIAS flatc)
+    target_compile_options(flatc PRIVATE "-w")
   endif()
   if (GDK_PLATFORM)
     # cstdlib only defines std::getenv when _CRT_USE_WINAPI_FAMILY_DESKTOP_APP is defined, which

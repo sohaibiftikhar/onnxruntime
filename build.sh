@@ -19,4 +19,9 @@ elif [[ "$*" == *"--android"* ]]; then
 fi
 
 #requires python3.6 or higher
-python3 $DIR/tools/ci_build/build.py --build_dir $DIR/build/$DIR_OS "$@"
+options=${@:-"--build_shared_lib --parallel --cmake_extra_defines CMAKE_C_COMPILER=/usr/bin/clang --cmake_extra_defines CMAKE_CXX_COMPILER=/usr/bin/clang++ --skip_tests"}
+if [[ "$options" == "install" ]]; then
+    cmake --install build/Linux/RelWithDebInfo/ --prefix build/install/Linux/RelWithDebInfo/
+else
+    python3 $DIR/tools/ci_build/build.py --build_dir $DIR/build/$DIR_OS --config RelWithDebInfo $options
+fi

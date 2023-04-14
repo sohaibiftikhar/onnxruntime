@@ -569,7 +569,7 @@ const Path& Node::ModelPath() const noexcept {
 bool Node::CanBeInlined() const {
   if (func_body_ || func_template_)
     return true;
-  if (! op_) return false;
+  if (!op_) return false;
   ONNX_NAMESPACE::FunctionProto function_proto;
   return TryGetFunctionProto(function_proto);
   // Note: We end up doing some redundant work, which can be eliminated if we cache
@@ -2257,7 +2257,9 @@ Status Graph::InferAndVerifyTypeMatch(Node& node, const OpSchema& op, const Reso
         std::string null_pointer("(null)");
         if (input_type == nullptr) input_type = &null_pointer;
         // Type error in input model/graph.
-
+        for (auto const& type : permitted_types) {
+          std::cerr << *type << " with addr " << type << " input_type: " << *input_type << " with addr " << input_type << std::endl;
+        }
         Status status(ONNXRUNTIME, INVALID_GRAPH,
                       "This is an invalid model. "
                       "Type Error: Type '" +
